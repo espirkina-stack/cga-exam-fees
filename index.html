@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CGA School — Exam Fees & Deadlines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --purple: #3C3489; --purple-light: #EEEDFE; --purple-mid: #CECBF6;
+    --amber: #BA7517; --amber-light: #FAEEDA; --amber-border: #EF9F27; --amber-text: #854F0B;
+    --red: #A32D2D; --green: #3B6D11;
+    --bg: #F8F7F4; --surface: #FFFFFF; --surface2: #F1EFE8;
+    --border: rgba(60,52,137,0.12); --border-strong: rgba(60,52,137,0.22);
+    --text: #1a1a2e; --text-muted: #6b6a7a; --text-faint: #9998a8;
+  }
+  body { font-family: "DM Sans", sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; }
+  .logo { width: 38px; height: 38px; background: var(--purple); border-radius: 9px; display: flex; align-items: center; justify-content: center; color: var(--purple-mid); font-weight: 500; font-size: 12px; }
+  .logo-text { line-height: 1.2; }
+  .logo-text strong { font-size: 14px; font-weight: 500; display: block; }
+  .logo-text span { font-size: 12px; color: var(--text-muted); }
+  main { max-width: 760px; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
+  h1 { font-size: 26px; font-weight: 500; margin-bottom: .4rem; }
+  .page-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.55; max-width: 540px; }
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .tab { padding: 9px 18px; font-size: 13.5px; font-family: "DM Sans", sans-serif; cursor: pointer; border: none; background: none; color: var(--text-muted); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .15s; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--purple); border-bottom-color: var(--purple); font-weight: 500; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .dl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 2rem; }
+  .dl-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.1rem 1.2rem; }
+  .dl-card h3 { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); margin-bottom: 12px; }
+  .dl-item { display: flex; gap: 10px; margin-bottom: 9px; align-items: flex-start; }
+  .dl-item:last-child { margin-bottom: 0; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+  .dot-blue { background: var(--purple); } .dot-amber { background: var(--amber); } .dot-red { background: var(--red); } .dot-green { background: var(--green); }
+  .dl-text { font-size: 13px; line-height: 1.5; color: var(--text); }
+  .dl-text strong { font-weight: 500; }
+  .tbc-banner { background: var(--amber-light); border: 1px solid var(--amber-border); border-radius: 12px; padding: 1rem 1.2rem; display: flex; gap: 10px; align-items: flex-start; margin-bottom: 2rem; font-size: 13px; color: var(--amber-text); line-height: 1.55; }
+  .tbc-banner::before { content: "\u23F3"; font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .tbc-banner a { color: var(--purple); }
+  .section-label { font-size: 10.5px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--text-faint); margin: 2rem 0 .7rem; display: flex; align-items: center; gap: 8px; }
+  .section-label::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+  .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: .5rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead { background: var(--surface2); }
+  th { padding: 8px 14px; text-align: left; font-weight: 500; font-size: 11.5px; color: var(--text-muted); white-space: nowrap; }
+  th.r { text-align: right; }
+  td { padding: 9px 14px; border-top: 1px solid var(--border); }
+  td.r { text-align: right; font-family: "DM Mono", monospace; font-size: 12.5px; }
+  tr:nth-child(even) td { background: rgba(241,239,232,.4); }
+  .tbc { display: inline-block; background: var(--amber-light); border: 1px solid var(--amber-border); border-radius: 4px; font-size: 10.5px; padding: 1px 6px; color: var(--amber-text); font-weight: 500; font-family: "DM Mono", monospace; }
+  .badge { display: inline-block; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; font-size: 10.5px; padding: 1px 6px; color: var(--text-muted); font-family: "DM Mono", monospace; }
+  .em { color: var(--text-muted); font-style: italic; }
+  .nt { font-size: 12px; color: var(--text-muted); margin: 6px 0 0 2px; }
+  .offline-note { border-left: 3px solid var(--border-strong); padding: .7rem 1rem; font-size: 13px; color: var(--text-muted); line-height: 1.55; margin-top: .6rem; border-radius: 0 8px 8px 0; background: var(--surface); }
+  .contact { margin-top: 2.5rem; padding: 1rem 1.2rem; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--text-muted); }
+  .contact-icon { width: 34px; height: 34px; border-radius: 8px; background: var(--purple-light); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .contact a { color: var(--purple); text-decoration: none; }
+  .contact a:hover { text-decoration: underline; }
+  footer { text-align: center; padding: 2rem; font-size: 12px; color: var(--text-faint); }
+
+  /* Calculator */
+  .calc-toggle-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.75rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: .8rem 1.1rem; }
+  .calc-toggle-row input[type=checkbox] { display: none; }
+  .toggle-track { width: 40px; height: 22px; background: var(--surface2); border: 1.5px solid var(--border-strong); border-radius: 11px; cursor: pointer; position: relative; transition: background .2s; flex-shrink: 0; }
+  .toggle-track::after { content: ""; position: absolute; width: 16px; height: 16px; background: white; border-radius: 50%; top: 2px; left: 2px; transition: left .2s; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+  #calcMode:checked + .toggle-track { background: var(--purple); border-color: var(--purple); }
+  #calcMode:checked + .toggle-track::after { left: 20px; }
+  .toggle-label { font-size: 13.5px; color: var(--text-muted); cursor: pointer; user-select: none; }
+  #calcMode:checked ~ .toggle-label { color: var(--purple); font-weight: 500; }
+
+  .cb-cell { width: 40px; padding: 0 6px 0 12px !important; }
+  .subject-cb { width: 16px; height: 16px; accent-color: var(--purple); cursor: pointer; }
+  tr.selected-row > td { background: var(--purple-light) !important; }
+
+  /* Sticky bar */
+  .calc-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1.5px solid var(--border); padding: .9rem 1.5rem 1rem; display: none; z-index: 20; box-shadow: 0 -6px 24px rgba(60,52,137,0.09); }
+  .calc-bar.visible { display: block; }
+  .calc-bar-inner { max-width: 760px; margin: 0 auto; }
+  .calc-bar-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: .6rem; }
+  .calc-total-label { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-faint); margin-bottom: 2px; }
+  .calc-total-gbp { font-size: 24px; font-weight: 500; color: var(--purple); font-family: "DM Mono", monospace; }
+  .calc-subjects { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .calc-clear { font-size: 12px; color: var(--red); cursor: pointer; background: none; border: none; font-family: "DM Sans", sans-serif; padding: 4px 0; }
+  .calc-clear:hover { text-decoration: underline; }
+  .fx-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: .45rem; }
+  .fx-pill { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 5px 11px; font-size: 12px; font-family: "DM Mono", monospace; color: var(--text-muted); white-space: nowrap; }
+  .fx-val { color: var(--text); font-weight: 500; }
+  .fx-note { font-size: 11px; color: var(--text-faint); line-height: 1.5; }
+
+  @media (max-width: 520px) {
+    .dl-grid { grid-template-columns: 1fr; }
+    main { padding: 1.5rem 1rem 7rem; }
+    header { padding: .9rem 1rem; }
+    .calc-total-gbp { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">CGA</div>
+  <div class="logo-text">
+    <strong>CGA School</strong>
+    <span>Online International Exams</span>
+  </div>
+</header>
+
+<main>
+  <h1>Exam fees &amp; deadlines</h1>
+  <p class="page-sub">Pearson Edexcel online examination fees (RIS). All fees and deadlines are set by Pearson Edexcel as an external provider and are subject to change.</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('oct', this)">October / November 2026</button>
+    <button class="tab" onclick="switchTab('jan', this)">January 2027</button>
+  </div>
+
+  <div class="calc-toggle-row">
+    <input type="checkbox" id="calcMode" onchange="toggleCalcMode(this)">
+    <label class="toggle-track" for="calcMode"></label>
+    <label class="toggle-label" for="calcMode">Calculate my fees — tick subjects to get a total</label>
+  </div>
+
+  <!-- OCTOBER / NOVEMBER -->
+  <div id="oct" class="panel active">
+    <div class="dl-grid">
+      <div class="dl-card">
+        <h3>Payment deadlines</h3>
+        <div class="dl-item"><span class="dot dot-blue"></span><div class="dl-text"><strong>15 July 2026</strong> — Final deadline to confirm exam entries</div></div>
+        <div class="dl-item"><span class="dot dot-amber"></span><div class="dl-text"><strong>16 July 2026</strong> — Late entry fees begin</div></div>
+        <div class="dl-item"><span class="dot dot-blue"></span><div class="dl-text"><strong>25 August 2026</strong> — All payments must be completed</div></div>
+        <div class="dl-item"><span class="dot dot-red"></span><div class="dl-text"><strong>26 August 2026</strong> — Unpaid entries withdrawn; late fees apply</div></div>
+      </div>
+      <div class="dl-card">
+        <h3>Refund policy</h3>
+        <div class="dl-item"><span class="dot dot-green"></span><div class="dl-text"><strong>Until 25 August 2026</strong> — Full refund</div></div>
+        <div class="dl-item"><span class="dot dot-red"></span><div class="dl-text"><strong>After 25 August 2026</strong> — £150 withdrawal fee per exam entry</div></div>
+      </div>
+    </div>
+
+    <div class="section-label">International GCSEs (IGCSE)</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th class="cb-col"></th><th style="width:52%">Subject</th><th class="r">Papers</th><th class="r">Fee</th></tr></thead>
+      <tbody>
+        <tr data-fee="400"><td class="cb-cell"></td><td>Biology</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
+        <tr data-fee="400"><td class="cb-cell"></td><td>Business</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
+        <tr data-fee="400"><td class="cb-cell"></td><td>Chemistry</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
+        <tr data-fee="400"><td class="cb-cell"></td><td>Economics</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
+        <tr data-fee="400"><td class="cb-cell"></td><td>English Language</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
+        <tr data-fee="400"><td class="cb-cell"></td><td>English Literature</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
+        <tr data-fee="400"><td class="cb-cell"></td><td>English as a Second Language</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
+        <tr data-fee="400"><td class="cb-cell"></td><td>Geography</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
+        <tr data-fee="400"><td class="cb-cell"></td><td>History</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
+        <tr data-fee="400"><td class="cb-cell"></td><td>Mathematics</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
+        <tr data-fee="400"><td class="cb-cell"></td><td>Physics</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nt">Each IGCSE subject requires sitting both papers in the same session to receive the qualification.</p>
+
+    <div class="section-label">International A Levels — Humanities</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th class="cb-col"></th><th style="width:42%">Subject (IAS / IA2)</th><th class="r">Papers</th><th class="r">Subject fee</th><th class="r">Per paper</th></tr></thead>
+      <tbody>
+        <tr data-fee="440"><td class="cb-cell"></td><td>Economics</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td></tr>
+        <tr data-fee="440"><td class="cb-cell"></td><td>Business</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="section-label">International A Levels — Sciences</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th class="cb-col"></th><th style="width:42%">Subject (IAS / IA2)</th><th class="r">Papers</th><th class="r">Subject fee</th><th class="r">Per paper</th></tr></thead>
+      <tbody>
+        <tr data-fee="600"><td class="cb-cell"></td><td>Physics</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td></tr>
+        <tr data-fee="600"><td class="cb-cell"></td><td>Mathematics</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td></tr>
+        <tr data-fee="600"><td class="cb-cell"></td><td>Chemistry</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td></tr>
+        <tr data-fee="600"><td class="cb-cell"></td><td>Biology</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="section-label">Offline exams only</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Subject</th><th class="r">Papers</th><th class="r">Fee</th></tr></thead>
+      <tbody>
+        <tr><td>English Language <span style="font-size:11px;color:var(--text-muted)">(Cambridge)</span></td><td class="r"><span class="badge">x2</span></td><td class="r" style="color:var(--text-muted)">Varies</td></tr>
+        <tr><td>General English <span style="font-size:11px;color:var(--text-muted)">(Cambridge)</span></td><td class="r"><span class="badge">x2</span></td><td class="r" style="color:var(--text-muted)">Varies</td></tr>
+        <tr><td>English Literature <span style="font-size:11px;color:var(--text-muted)">(Cambridge)</span></td><td class="r"><span class="badge">x2</span></td><td class="r" style="color:var(--text-muted)">Varies</td></tr>
+        <tr><td>Information Technology IAS/IA2 <span style="font-size:11px;color:var(--text-muted)">(Cambridge)</span></td><td class="r"><span class="badge">x2</span></td><td class="r" style="color:var(--text-muted)">Varies</td></tr>
+        <tr><td>Computer Science IGCSE <span style="font-size:11px;color:var(--text-muted)">(Cambridge)</span></td><td class="r"><span class="badge">x2</span></td><td class="r" style="color:var(--text-muted)">Varies</td></tr>
+      </tbody>
+    </table></div>
+    <div class="offline-note">These subjects are not available online. Students must sit them at an authorised exam centre — fees vary by location. Travel and exam costs cannot be covered by CGA.</div>
+  </div>
+
+  <!-- JANUARY 2027 -->
+  <div id="jan" class="panel">
+    <div class="tbc-banner">
+      Payment deadlines and refund policy for January 2027 are not yet confirmed. This page will be updated as soon as information is available. Questions? <a href="mailto:exams@cga.school">&nbsp;exams@cga.school</a>
+    </div>
+
+    <div class="section-label">International A Levels — Humanities</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th class="cb-col"></th><th style="width:42%">Subject (IAS / IA2)</th><th class="r">Papers</th><th class="r">Subject fee</th><th class="r">Per paper</th></tr></thead>
+      <tbody>
+        <tr data-fee="0" data-tbc="1"><td class="cb-cell"></td><td>Economics</td><td class="r"><span class="badge">x2</span></td><td class="r"><span class="tbc">TBC</span></td><td class="r"><span class="tbc">TBC</span></td></tr>
+        <tr data-fee="0" data-tbc="1"><td class="cb-cell"></td><td>Business</td><td class="r"><span class="badge">x2</span></td><td class="r"><span class="tbc">TBC</span></td><td class="r"><span class="tbc">TBC</span></td></tr>
+        <tr data-fee="0" data-tbc="1"><td class="cb-cell"></td><td>Psychology</td><td class="r"><span class="badge">x2</span></td><td class="r"><span class="tbc">TBC</span></td><td class="r"><span class="tbc">TBC</span></td></tr>
+        <tr data-fee="0" data-tbc="1"><td class="cb-cell"></td><td>History</td><td class="r"><span class="badge">x2</span></td><td class="r"><span class="tbc">TBC</span></td><td class="r"><span class="tbc">TBC</span></td></tr>
+        <tr data-fee="0" data-tbc="1"><td class="cb-cell"></td><td>English Language</td><td class="r"><span class="badge">x2</span></td><td class="r"><span class="tbc">TBC</span></td><td class="r"><span class="tbc">TBC</span></td></tr>
+        <tr data-fee="0" data-tbc="1"><td class="cb-cell"></td><td>English Literature</td><td class="r"><span class="badge">x2</span></td><td class="r"><span class="tbc">TBC</span></td><td class="r"><span class="tbc">TBC</span></td></tr>
+        <tr data-fee="0" data-tbc="1"><td class="cb-cell"></td><td>Geography</td><td class="r"><span class="badge">x2</span></td><td class="r"><span class="tbc">TBC</span></td><td class="r"><span class="tbc">TBC</span></td></tr>
+        <tr data-fee="150"><td class="cb-cell"></td><td class="em">EPQ — coursework only, no exam</td><td class="r">—</td><td class="r">£150</td><td class="r">—</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="section-label">International A Levels — Sciences</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th class="cb-col"></th><th style="width:42%">Subject (IAS / IA2)</th><th class="r">Papers</th><th class="r">Subject fee</th><th class="r">Per paper</th></tr></thead>
+      <tbody>
+        <tr data-fee="0" data-tbc="1"><td class="cb-cell"></td><td>Physics</td><td class="r"><span class="badge">x3</span></td><td class="r"><span class="tbc">TBC</span></td><td class="r"><span class="tbc">TBC</span></td></tr>
+        <tr data-fee="0" data-tbc="1"><td class="cb-cell"></td><td>Mathematics</td><td class="r"><span class="badge">x3</span></td><td class="r"><span class="tbc">TBC</span></td><td class="r"><span class="tbc">TBC</span></td></tr>
+        <tr data-fee="0" data-tbc="1"><td class="cb-cell"></td><td>Further Mathematics</td><td class="r"><span class="badge">x3</span></td><td class="r"><span class="tbc">TBC</span></td><td class="r"><span class="tbc">TBC</span></td></tr>
+        <tr data-fee="0" data-tbc="1"><td class="cb-cell"></td><td>Chemistry</td><td class="r"><span class="badge">x3</span></td><td class="r"><span class="tbc">TBC</span></td><td class="r"><span class="tbc">TBC</span></td></tr>
+        <tr data-fee="0" data-tbc="1"><td class="cb-cell"></td><td>Biology</td><td class="r"><span class="badge">x3</span></td><td class="r"><span class="tbc">TBC</span></td><td class="r"><span class="tbc">TBC</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="section-label">Offline exams only</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Subject</th><th class="r">Papers</th><th class="r">Fee</th></tr></thead>
+      <tbody>
+        <tr><td>GCSE Psychology <span style="font-size:11px;color:var(--text-muted)">(Pearson Edexcel)</span></td><td class="r"><span class="badge">x2</span></td><td class="r" style="color:var(--text-muted)">Varies</td></tr>
+        <tr><td>Information Technology IAS/IA2 <span style="font-size:11px;color:var(--text-muted)">(Cambridge)</span></td><td class="r"><span class="badge">x2</span></td><td class="r" style="color:var(--text-muted)">Varies</td></tr>
+        <tr><td>Computer Science IGCSE <span style="font-size:11px;color:var(--text-muted)">(Cambridge)</span></td><td class="r"><span class="badge">x2</span></td><td class="r" style="color:var(--text-muted)">Varies</td></tr>
+      </tbody>
+    </table></div>
+    <div class="offline-note">These subjects are not available online. Students must sit them at an authorised exam centre — fees vary by location. Travel and exam costs cannot be covered by CGA.</div>
+  </div>
+
+  <div class="contact">
+    <div class="contact-icon">&#x2709;&#xFE0F;</div>
+    <div>Questions about withdrawals or changing subjects? Contact us at <a href="mailto:exams@cga.school">exams@cga.school</a></div>
+  </div>
+</main>
+
+<!-- Sticky calculator bar -->
+<div class="calc-bar" id="calcBar">
+  <div class="calc-bar-inner">
+    <div class="calc-bar-top">
+      <div>
+        <div class="calc-total-label">Estimated total</div>
+        <div class="calc-total-gbp" id="totalGbp">£0</div>
+        <div class="calc-subjects" id="subjectCount"></div>
+      </div>
+      <button class="calc-clear" onclick="clearAll()">Clear all</button>
+    </div>
+    <div class="fx-grid" id="fxGrid"></div>
+    <div class="fx-note" id="fxNote"></div>
+  </div>
+</div>
+
+<footer>&#169; CGA School &middot; Fees set by Pearson Edexcel, subject to change</footer>
+
+<script>
+let calcActive = false;
+let rates = null;
+
+const currencies = [
+  { code: "USD", symbol: "$" },
+  { code: "EUR", symbol: "\u20ac" },
+  { code: "AED", symbol: "AED" },
+  { code: "AUD", symbol: "A$" },
+  { code: "NZD", symbol: "NZ$" },
+  { code: "JPY", symbol: "\u00a5" },
+];
+
+function switchTab(id, el) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  el.classList.add("active");
+  clearAll();
+  if (calcActive) applyCalcMode();
+}
+
+function toggleCalcMode(cb) {
+  calcActive = cb.checked;
+  applyCalcMode();
+  if (!calcActive) clearAll();
+}
+
+function applyCalcMode() {
+  document.querySelectorAll("tr[data-fee]").forEach(row => {
+    const cell = row.querySelector(".cb-cell");
+    if (!cell) return;
+    if (calcActive) {
+      if (!cell.querySelector("input")) {
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.className = "subject-cb";
+        cb.addEventListener("change", () => {
+          row.classList.toggle("selected-row", cb.checked);
+          updateTotal();
+        });
+        cell.appendChild(cb);
+      }
+    } else {
+      cell.innerHTML = "";
+      row.classList.remove("selected-row");
+    }
+  });
+}
+
+function updateTotal() {
+  const checked = document.querySelectorAll(".subject-cb:checked");
+  let total = 0;
+  let hasTbc = false;
+  checked.forEach(cb => {
+    const row = cb.closest("tr");
+    total += parseInt(row.dataset.fee || 0);
+    if (row.dataset.tbc) hasTbc = true;
+  });
+
+  const bar = document.getElementById("calcBar");
+  if (checked.length === 0) { bar.classList.remove("visible"); return; }
+
+  bar.classList.add("visible");
+  const gbpText = "\u00a3" + total.toLocaleString() + (hasTbc ? " + TBC" : "");
+  document.getElementById("totalGbp").textContent = gbpText;
+  const n = checked.length;
+  document.getElementById("subjectCount").textContent = n + (n === 1 ? " subject selected" : " subjects selected");
+
+  const fxGrid = document.getElementById("fxGrid");
+  fxGrid.innerHTML = currencies.map(c =>
+    "<div class=\"fx-pill\" id=\"fx-" + c.code + "\">" + c.symbol + " <span style=\"color:var(--text-faint)\">loading...</span></div>"
+  ).join("");
+
+  document.getElementById("fxNote").textContent = hasTbc
+    ? "Conversion shown for confirmed fees only. Final fee may vary slightly; the exact conversion will be calculated on the day of payment."
+    : "Indicative conversion based on today's live rates. Final fee may vary slightly; the exact conversion will be calculated on the day of payment.";
+
+  loadRates(total, hasTbc);
+}
+
+async function loadRates(total, hasTbc) {
+  if (!rates) {
+    rates = await fetchRatesFromAny();
+  }
+  renderFx(total, hasTbc);
+}
+
+async function fetchRatesFromAny() {
+  const apis = [
+    async () => {
+      const r = await fetch("https://api.frankfurter.app/latest?from=GBP&to=USD,EUR,AED,AUD,NZD,JPY");
+      const d = await r.json(); return d.rates;
+    },
+    async () => {
+      const r = await fetch("https://open.er-api.com/v6/latest/GBP");
+      const d = await r.json(); return { USD: d.rates.USD, EUR: d.rates.EUR, AED: d.rates.AED, AUD: d.rates.AUD, NZD: d.rates.NZD, JPY: d.rates.JPY };
+    },
+    async () => {
+      const r = await fetch("https://api.exchangerate-api.com/v4/latest/GBP");
+      const d = await r.json(); return { USD: d.rates.USD, EUR: d.rates.EUR, AED: d.rates.AED, AUD: d.rates.AUD, NZD: d.rates.NZD, JPY: d.rates.JPY };
+    },
+  ];
+  for (const api of apis) {
+    try { return await api(); } catch(e) {}
+  }
+  // Fallback: approximate rates (updated May 2026 — shown as indicative)
+  document.getElementById("fxNote").textContent += " (Live rates unavailable — showing approximate rates.)";
+  return { USD: 1.27, EUR: 1.17, AED: 4.67, AUD: 1.96, NZD: 2.14, JPY: 196.0 };
+}
+
+function renderFx(total, hasTbc) {
+  currencies.forEach(c => {
+    const el = document.getElementById("fx-" + c.code);
+    if (!el || !rates || !rates[c.code]) return;
+    const val = total * rates[c.code];
+    const fmt = c.symbol + Math.round(val).toLocaleString();
+    el.innerHTML = "<span class=\"fx-val\">" + fmt + (hasTbc ? "+" : "") + "</span> <span style=\"font-size:10px;color:var(--text-faint)\">" + c.code + "</span>";
+  });
+}
+
+function clearAll() {
+  document.querySelectorAll(".subject-cb").forEach(cb => { cb.checked = false; });
+  document.querySelectorAll(".selected-row").forEach(r => r.classList.remove("selected-row"));
+  document.getElementById("calcBar").classList.remove("visible");
+}
+</script>
+</body>
+</html>
