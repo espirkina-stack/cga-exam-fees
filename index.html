@@ -22,7 +22,7 @@ header { background: var(--surface); border-bottom: 1px solid var(--border); pad
 .logo-text { line-height: 1.2; }
 .logo-text strong { font-size: 14px; font-weight: 500; display: block; }
 .logo-text span { font-size: 12px; color: var(--text-muted); }
-main { max-width: 760px; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
+main { max-width: 920px; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
 h1 { font-size: 26px; font-weight: 500; margin-bottom: .4rem; }
 .page-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.55; max-width: 540px; }
 .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
@@ -45,11 +45,13 @@ h1 { font-size: 26px; font-weight: 500; margin-bottom: .4rem; }
 .tbc-banner a { color: var(--purple); }
 .section-label { font-size: 10.5px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--text-faint); margin: 2rem 0 .7rem; display: flex; align-items: center; gap: 8px; }
 .section-label::after { content: ""; flex: 1; height: 1px; background: var(--border); }
-.table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: .5rem; }
+.table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; margin-bottom: .5rem; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 thead { background: var(--surface2); }
 th { padding: 8px 14px; text-align: left; font-weight: 500; font-size: 11.5px; color: var(--text-muted); white-space: nowrap; }
 th.r { text-align: right; }
+th.fee-group { text-align: center; border-left: 1px solid var(--border); }
+th.late-fee, td.late-fee { color: var(--amber-text); }
 td { padding: 9px 14px; border-top: 1px solid var(--border); }
 td.r { text-align: right; font-family: "DM Mono", monospace; font-size: 12.5px; }
 tr:nth-child(even) td { background: rgba(241,239,232,.4); }
@@ -63,37 +65,10 @@ tr:nth-child(even) td { background: rgba(241,239,232,.4); }
 .contact a { color: var(--purple); text-decoration: none; }
 .contact a:hover { text-decoration: underline; }
 footer { text-align: center; padding: 2rem; font-size: 12px; color: var(--text-faint); }
-/* Calculator */
-.calc-toggle-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.75rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: .8rem 1.1rem; }
-.calc-toggle-row input[type=checkbox] { display: none; }
-.toggle-track { width: 40px; height: 22px; background: var(--surface2); border: 1.5px solid var(--border-strong); border-radius: 11px; cursor: pointer; position: relative; transition: background .2s; flex-shrink: 0; }
-.toggle-track::after { content: ""; position: absolute; width: 16px; height: 16px; background: white; border-radius: 50%; top: 2px; left: 2px; transition: left .2s; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
-#calcMode:checked + .toggle-track { background: var(--purple); border-color: var(--purple); }
-#calcMode:checked + .toggle-track::after { left: 20px; }
-.toggle-label { font-size: 13.5px; color: var(--text-muted); cursor: pointer; user-select: none; }
-#calcMode:checked ~ .toggle-label { color: var(--purple); font-weight: 500; }
-.cb-cell { width: 40px; padding: 0 6px 0 12px !important; }
-.subject-cb { width: 16px; height: 16px; accent-color: var(--purple); cursor: pointer; }
-tr.selected-row > td { background: var(--purple-light) !important; }
-/* Sticky bar */
-.calc-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1.5px solid var(--border); padding: .9rem 1.5rem 1rem; display: none; z-index: 20; box-shadow: 0 -6px 24px rgba(60,52,137,0.09); }
-.calc-bar.visible { display: block; }
-.calc-bar-inner { max-width: 760px; margin: 0 auto; }
-.calc-bar-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: .6rem; }
-.calc-total-label { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-faint); margin-bottom: 2px; }
-.calc-total-gbp { font-size: 24px; font-weight: 500; color: var(--purple); font-family: "DM Mono", monospace; }
-.calc-subjects { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-.calc-clear { font-size: 12px; color: var(--red); cursor: pointer; background: none; border: none; font-family: "DM Sans", sans-serif; padding: 4px 0; }
-.calc-clear:hover { text-decoration: underline; }
-.fx-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: .45rem; }
-.fx-pill { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 5px 11px; font-size: 12px; font-family: "DM Mono", monospace; color: var(--text-muted); white-space: nowrap; }
-.fx-val { color: var(--text); font-weight: 500; }
-.fx-note { font-size: 11px; color: var(--text-faint); line-height: 1.5; }
 @media (max-width: 520px) {
 .dl-grid { grid-template-columns: 1fr; }
-main { padding: 1.5rem 1rem 7rem; }
+main { padding: 1.5rem 1rem 6rem; }
 header { padding: .9rem 1rem; }
-.calc-total-gbp { font-size: 20px; }
 }
 </style>
 </head>
@@ -111,11 +86,6 @@ header { padding: .9rem 1rem; }
 <div class="tabs">
 <button class="tab active" onclick="switchTab('oct', this)">October / November 2026</button>
 <button class="tab" onclick="switchTab('jan', this)">January 2027</button>
-</div>
-<div class="calc-toggle-row">
-<input type="checkbox" id="calcMode" onchange="toggleCalcMode(this)">
-<label class="toggle-track" for="calcMode"></label>
-<label class="toggle-label" for="calcMode">Calculate my fees — tick subjects to get a total</label>
 </div>
 <!-- OCTOBER / NOVEMBER -->
 <div id="oct" class="panel active">
@@ -135,40 +105,40 @@ header { padding: .9rem 1rem; }
 </div>
 <div class="section-label">International GCSEs (IGCSE)</div>
 <div class="table-wrap"><table>
-<thead><tr><th class="cb-col"></th><th style="width:52%">Subject</th><th class="r">Papers</th><th class="r">Fee</th></tr></thead>
+<thead><tr><th style="width:48%">Subject</th><th class="r">Papers</th><th class="r">Normal fee</th><th class="r late-fee">Late fee</th></tr></thead>
 <tbody>
-<tr data-fee="400"><td class="cb-cell"></td><td>Biology</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
-<tr data-fee="400"><td class="cb-cell"></td><td>Business</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
-<tr data-fee="400"><td class="cb-cell"></td><td>Chemistry</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
-<tr data-fee="400"><td class="cb-cell"></td><td>Economics</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
-<tr data-fee="400"><td class="cb-cell"></td><td>English Language</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
-<tr data-fee="400"><td class="cb-cell"></td><td>English Literature</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
-<tr data-fee="250"><td class="cb-cell"></td><td>English Language (1C &amp; Coursework)*</td><td class="r"><span class="badge">1C + CW</span></td><td class="r">£250</td></tr>
-<tr data-fee="250"><td class="cb-cell"></td><td>English Literature (1C &amp; Coursework)*</td><td class="r"><span class="badge">1C + CW</span></td><td class="r">£250</td></tr>
-<tr data-fee="400"><td class="cb-cell"></td><td>Geography</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
-<tr data-fee="400"><td class="cb-cell"></td><td>History</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
-<tr data-fee="400"><td class="cb-cell"></td><td>Mathematics</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
-<tr data-fee="400"><td class="cb-cell"></td><td>Physics</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td></tr>
+<tr><td>Biology</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td><td class="r late-fee">£600</td></tr>
+<tr><td>Business</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td><td class="r late-fee">£600</td></tr>
+<tr><td>Chemistry</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td><td class="r late-fee">£600</td></tr>
+<tr><td>Economics</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td><td class="r late-fee">£600</td></tr>
+<tr><td>English Language</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td><td class="r late-fee">£600</td></tr>
+<tr><td>English Literature</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td><td class="r late-fee">£600</td></tr>
+<tr><td>English Language (1C &amp; Coursework)*</td><td class="r"><span class="badge">1C + CW</span></td><td class="r">£250</td><td class="r late-fee"><span class="tbc">TBC</span></td></tr>
+<tr><td>English Literature (1C &amp; Coursework)*</td><td class="r"><span class="badge">1C + CW</span></td><td class="r">£250</td><td class="r late-fee"><span class="tbc">TBC</span></td></tr>
+<tr><td>Geography</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td><td class="r late-fee">£600</td></tr>
+<tr><td>History</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td><td class="r late-fee">£600</td></tr>
+<tr><td>Mathematics</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td><td class="r late-fee">£600</td></tr>
+<tr><td>Physics</td><td class="r"><span class="badge">x2</span></td><td class="r">£400</td><td class="r late-fee">£600</td></tr>
 </tbody>
 </table></div>
 <p class="nt">Each IGCSE subject requires sitting both papers in the same session to receive the qualification.</p>
 <p class="nt">* Available only to CGA group students sitting examinations through Remote Invigilation Service (RIS). Not available for DaVinci students or students sitting examinations offline.</p>
 <div class="section-label">International A Levels — Humanities</div>
 <div class="table-wrap"><table>
-<thead><tr><th class="cb-col"></th><th style="width:42%">Subject (IAS / IA2)</th><th class="r">Papers</th><th class="r">Subject fee</th><th class="r">Per paper</th></tr></thead>
+<thead><tr><th rowspan="2">Subject (IAS / IA2)</th><th class="r" rowspan="2">Papers</th><th class="fee-group" colspan="2">Normal fees</th><th class="fee-group late-fee" colspan="2">Late fees</th></tr><tr><th class="r">Subject</th><th class="r">Paper</th><th class="r late-fee">Subject</th><th class="r late-fee">Paper</th></tr></thead>
 <tbody>
-<tr data-fee="440"><td class="cb-cell"></td><td>Economics</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td></tr>
-<tr data-fee="440"><td class="cb-cell"></td><td>Business</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td></tr>
+<tr><td>Economics</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td><td class="r late-fee">£680</td><td class="r late-fee">£340</td></tr>
+<tr><td>Business</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td><td class="r late-fee">£680</td><td class="r late-fee">£340</td></tr>
 </tbody>
 </table></div>
 <div class="section-label">International A Levels — Sciences</div>
 <div class="table-wrap"><table>
-<thead><tr><th class="cb-col"></th><th style="width:42%">Subject (IAS / IA2)</th><th class="r">Papers</th><th class="r">Subject fee</th><th class="r">Per paper</th></tr></thead>
+<thead><tr><th rowspan="2">Subject (IAS / IA2)</th><th class="r" rowspan="2">Papers</th><th class="fee-group" colspan="2">Normal fees</th><th class="fee-group late-fee" colspan="2">Late fees</th></tr><tr><th class="r">Subject</th><th class="r">Paper</th><th class="r late-fee">Subject</th><th class="r late-fee">Paper</th></tr></thead>
 <tbody>
-<tr data-fee="600"><td class="cb-cell"></td><td>Physics</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td></tr>
-<tr data-fee="600"><td class="cb-cell"></td><td>Mathematics</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td></tr>
-<tr data-fee="600"><td class="cb-cell"></td><td>Chemistry</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td></tr>
-<tr data-fee="600"><td class="cb-cell"></td><td>Biology</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td></tr>
+<tr><td>Physics</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td><td class="r late-fee">£900</td><td class="r late-fee">£300</td></tr>
+<tr><td>Mathematics</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td><td class="r late-fee">£900</td><td class="r late-fee">£300</td></tr>
+<tr><td>Chemistry</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td><td class="r late-fee">£900</td><td class="r late-fee">£300</td></tr>
+<tr><td>Biology</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td><td class="r late-fee">£900</td><td class="r late-fee">£300</td></tr>
 </tbody>
 </table></div>
 <div class="section-label">Offline exams only</div>
@@ -203,27 +173,27 @@ header { padding: .9rem 1rem; }
 </div>
 <div class="section-label">International A Levels — Humanities</div>
 <div class="table-wrap"><table>
-<thead><tr><th class="cb-col"></th><th style="width:42%">Subject (IAS / IA2)</th><th class="r">Papers</th><th class="r">Subject fee</th><th class="r">Per paper</th></tr></thead>
+<thead><tr><th rowspan="2">Subject (IAS / IA2)</th><th class="r" rowspan="2">Papers</th><th class="fee-group" colspan="2">Normal fees</th><th class="fee-group late-fee" colspan="2">Late fees</th></tr><tr><th class="r">Subject</th><th class="r">Paper</th><th class="r late-fee">Subject</th><th class="r late-fee">Paper</th></tr></thead>
 <tbody>
-<tr data-fee="440"><td class="cb-cell"></td><td>Economics</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td></tr>
-<tr data-fee="440"><td class="cb-cell"></td><td>Business</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td></tr>
-<tr data-fee="440"><td class="cb-cell"></td><td>Psychology</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td></tr>
-<tr data-fee="440"><td class="cb-cell"></td><td>History</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td></tr>
-<tr data-fee="440"><td class="cb-cell"></td><td>English Language</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td></tr>
-<tr data-fee="440"><td class="cb-cell"></td><td>English Literature</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td></tr>
-<tr data-fee="440"><td class="cb-cell"></td><td>Geography</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td></tr>
-<tr data-fee="150"><td class="cb-cell"></td><td class="em">EPQ — coursework only, no exam</td><td class="r">—</td><td class="r">£150</td><td class="r">—</td></tr>
+<tr><td>Economics</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td><td class="r late-fee">£680</td><td class="r late-fee">£340</td></tr>
+<tr><td>Business</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td><td class="r late-fee">£680</td><td class="r late-fee">£340</td></tr>
+<tr><td>Psychology</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td><td class="r late-fee">£680</td><td class="r late-fee">£340</td></tr>
+<tr><td>History</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td><td class="r late-fee">£680</td><td class="r late-fee">£340</td></tr>
+<tr><td>English Language</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td><td class="r late-fee">£680</td><td class="r late-fee">£340</td></tr>
+<tr><td>English Literature</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td><td class="r late-fee">£680</td><td class="r late-fee">£340</td></tr>
+<tr><td>Geography</td><td class="r"><span class="badge">x2</span></td><td class="r">£440</td><td class="r">£220</td><td class="r late-fee">£680</td><td class="r late-fee">£340</td></tr>
+<tr><td class="em">EPQ — coursework only, no exam</td><td class="r">—</td><td class="r">£150</td><td class="r">—</td><td class="r late-fee">—</td><td class="r late-fee">—</td></tr>
 </tbody>
 </table></div>
 <div class="section-label">International A Levels — Sciences</div>
 <div class="table-wrap"><table>
-<thead><tr><th class="cb-col"></th><th style="width:42%">Subject (IAS / IA2)</th><th class="r">Papers</th><th class="r">Subject fee</th><th class="r">Per paper</th></tr></thead>
+<thead><tr><th rowspan="2">Subject (IAS / IA2)</th><th class="r" rowspan="2">Papers</th><th class="fee-group" colspan="2">Normal fees</th><th class="fee-group late-fee" colspan="2">Late fees</th></tr><tr><th class="r">Subject</th><th class="r">Paper</th><th class="r late-fee">Subject</th><th class="r late-fee">Paper</th></tr></thead>
 <tbody>
-<tr data-fee="600"><td class="cb-cell"></td><td>Physics</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td></tr>
-<tr data-fee="600"><td class="cb-cell"></td><td>Mathematics</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td></tr>
-<tr data-fee="600"><td class="cb-cell"></td><td>Further Mathematics</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td></tr>
-<tr data-fee="600"><td class="cb-cell"></td><td>Chemistry</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td></tr>
-<tr data-fee="600"><td class="cb-cell"></td><td>Biology</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td></tr>
+<tr><td>Physics</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td><td class="r late-fee">£900</td><td class="r late-fee">£300</td></tr>
+<tr><td>Mathematics</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td><td class="r late-fee">£900</td><td class="r late-fee">£300</td></tr>
+<tr><td>Further Mathematics</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td><td class="r late-fee">£900</td><td class="r late-fee">£300</td></tr>
+<tr><td>Chemistry</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td><td class="r late-fee">£900</td><td class="r late-fee">£300</td></tr>
+<tr><td>Biology</td><td class="r"><span class="badge">x3</span></td><td class="r">£600</td><td class="r">£200</td><td class="r late-fee">£900</td><td class="r late-fee">£300</td></tr>
 </tbody>
 </table></div>
 </div>
@@ -232,119 +202,13 @@ header { padding: .9rem 1rem; }
 <div>Questions about withdrawals or changing subjects? Contact us at <a href="mailto:exams@cga.school">exams@cga.school</a></div>
 </div>
 </main>
-<!-- Sticky calculator bar -->
-<div class="calc-bar" id="calcBar">
-<div class="calc-bar-inner">
-<div class="calc-bar-top">
-<div>
-<div class="calc-total-label">Estimated total</div>
-<div class="calc-total-gbp" id="totalGbp">£0</div>
-<div class="calc-subjects" id="subjectCount"></div>
-</div>
-<button class="calc-clear" onclick="clearAll()">Clear all</button>
-</div>
-<div class="fx-grid" id="fxGrid"></div>
-<div class="fx-note" id="fxNote"></div>
-</div>
-</div>
 <footer>&#169; CGA School &middot; Fees set by Pearson Edexcel, subject to change</footer>
 <script>
-let calcActive = false;
-let rates = null;
-const currencies = [
-{ code: "USD", symbol: "$" },
-{ code: "EUR", symbol: "€" },
-{ code: "AED", symbol: "AED" },
-{ code: "AUD", symbol: "A$" },
-{ code: "NZD", symbol: "NZ$" },
-{ code: "JPY", symbol: "¥" },
-];
 function switchTab(id, el) {
 document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
 document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 el.classList.add("active");
-clearAll();
-if (calcActive) applyCalcMode();
-}
-function toggleCalcMode(cb) {
-calcActive = cb.checked;
-applyCalcMode();
-if (!calcActive) clearAll();
-}
-function applyCalcMode() {
-document.querySelectorAll("tr[data-fee]").forEach(row => {
-const cell = row.querySelector(".cb-cell");
-if (!cell) return;
-if (calcActive) {
-if (!cell.querySelector("input")) {
-const cb = document.createElement("input");
-cb.type = "checkbox";
-cb.className = "subject-cb";
-cb.addEventListener("change", () => {
-row.classList.toggle("selected-row", cb.checked);
-updateTotal();
-});
-cell.appendChild(cb);
-}
-} else {
-cell.innerHTML = "";
-row.classList.remove("selected-row");
-}
-});
-}
-function updateTotal() {
-const checked = document.querySelectorAll(".subject-cb:checked");
-let total = 0;
-let hasTbc = false;
-checked.forEach(cb => {
-const row = cb.closest("tr");
-total += parseInt(row.dataset.fee || 0);
-if (row.dataset.tbc) hasTbc = true;
-});
-const bar = document.getElementById("calcBar");
-if (checked.length === 0) { bar.classList.remove("visible"); return; }
-bar.classList.add("visible");
-const gbpText = "£" + total.toLocaleString() + (hasTbc ? " + TBC" : "");
-document.getElementById("totalGbp").textContent = gbpText;
-const n = checked.length;
-document.getElementById("subjectCount").textContent = n + (n === 1 ? " subject selected" : " subjects selected");
-const fxGrid = document.getElementById("fxGrid");
-fxGrid.innerHTML = currencies.map(c =>
-"<div class=\"fx-pill\" id=\"fx-" + c.code + "\">" + c.symbol + " <span style=\"color:var(--text-faint)\">loading...</span></div>"
-).join("");
-document.getElementById("fxNote").textContent = hasTbc
-? "Conversion shown for confirmed fees only. Final fee may vary slightly; the exact conversion will be calculated on the day of payment."
-: "Indicative conversion based on today's live rates. Final fee may vary slightly; the exact conversion will be calculated on the day of payment.";
-loadRates(total, hasTbc);
-}
-async function loadRates(total, hasTbc) {
-if (!rates) { rates = await fetchRatesFromAny(); }
-renderFx(total, hasTbc);
-}
-async function fetchRatesFromAny() {
-const apis = [
-async () => { const r = await fetch("https://api.frankfurter.app/latest?from=GBP&to=USD,EUR,AED,AUD,NZD,JPY"); const d = await r.json(); return d.rates; },
-async () => { const r = await fetch("https://open.er-api.com/v6/latest/GBP"); const d = await r.json(); return { USD: d.rates.USD, EUR: d.rates.EUR, AED: d.rates.AED, AUD: d.rates.AUD, NZD: d.rates.NZD, JPY: d.rates.JPY }; },
-async () => { const r = await fetch("https://api.exchangerate-api.com/v4/latest/GBP"); const d = await r.json(); return { USD: d.rates.USD, EUR: d.rates.EUR, AED: d.rates.AED, AUD: d.rates.AUD, NZD: d.rates.NZD, JPY: d.rates.JPY }; },
-];
-for (const api of apis) { try { return await api(); } catch(e) {} }
-document.getElementById("fxNote").textContent += " (Live rates unavailable — showing approximate rates.)";
-return { USD: 1.27, EUR: 1.17, AED: 4.67, AUD: 1.96, NZD: 2.14, JPY: 196.0 };
-}
-function renderFx(total, hasTbc) {
-currencies.forEach(c => {
-const el = document.getElementById("fx-" + c.code);
-if (!el || !rates || !rates[c.code]) return;
-const val = total * rates[c.code];
-const fmt = c.symbol + Math.round(val).toLocaleString();
-el.innerHTML = "<span class=\"fx-val\">" + fmt + (hasTbc ? "+" : "") + "</span> <span style=\"font-size:10px;color:var(--text-faint)\">" + c.code + "</span>";
-});
-}
-function clearAll() {
-document.querySelectorAll(".subject-cb").forEach(cb => { cb.checked = false; });
-document.querySelectorAll(".selected-row").forEach(r => r.classList.remove("selected-row"));
-document.getElementById("calcBar").classList.remove("visible");
 }
 </script>
 </body>

@@ -1,0 +1,165 @@
+<!--
+  Archived fee calculator for cga-exam-fees.
+
+  To restore it:
+  1. Add an empty <th class="cb-col"></th> to each fee table header.
+  2. Add data-fee="400" (or the applicable normal subject fee) to each selectable <tr>.
+  3. Add <td class="cb-cell"></td> as the first cell of each selectable row.
+  4. Copy the CSS, controls, sticky bar and JavaScript below into index.html.
+
+  This version calculates normal fees only. Late fees remain informational columns.
+-->
+
+<!-- Calculator CSS: place inside the main <style> block. -->
+<style>
+.calc-toggle-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.75rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: .8rem 1.1rem; }
+.calc-toggle-row input[type=checkbox] { display: none; }
+.toggle-track { width: 40px; height: 22px; background: var(--surface2); border: 1.5px solid var(--border-strong); border-radius: 11px; cursor: pointer; position: relative; transition: background .2s; flex-shrink: 0; }
+.toggle-track::after { content: ""; position: absolute; width: 16px; height: 16px; background: white; border-radius: 50%; top: 2px; left: 2px; transition: left .2s; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+#calcMode:checked + .toggle-track { background: var(--purple); border-color: var(--purple); }
+#calcMode:checked + .toggle-track::after { left: 20px; }
+.toggle-label { font-size: 13.5px; color: var(--text-muted); cursor: pointer; user-select: none; }
+#calcMode:checked ~ .toggle-label { color: var(--purple); font-weight: 500; }
+.cb-cell { width: 40px; padding: 0 6px 0 12px !important; }
+.subject-cb { width: 16px; height: 16px; accent-color: var(--purple); cursor: pointer; }
+tr.selected-row > td { background: var(--purple-light) !important; }
+.calc-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1.5px solid var(--border); padding: .9rem 1.5rem 1rem; display: none; z-index: 20; box-shadow: 0 -6px 24px rgba(60,52,137,0.09); }
+.calc-bar.visible { display: block; }
+.calc-bar-inner { max-width: 920px; margin: 0 auto; }
+.calc-bar-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: .6rem; }
+.calc-total-label { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-faint); margin-bottom: 2px; }
+.calc-total-gbp { font-size: 24px; font-weight: 500; color: var(--purple); font-family: "DM Mono", monospace; }
+.calc-subjects { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.calc-clear { font-size: 12px; color: var(--red); cursor: pointer; background: none; border: none; font-family: "DM Sans", sans-serif; padding: 4px 0; }
+.calc-clear:hover { text-decoration: underline; }
+.fx-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: .45rem; }
+.fx-pill { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 5px 11px; font-size: 12px; font-family: "DM Mono", monospace; color: var(--text-muted); white-space: nowrap; }
+.fx-val { color: var(--text); font-weight: 500; }
+.fx-note { font-size: 11px; color: var(--text-faint); line-height: 1.5; }
+</style>
+
+<!-- Calculator control: place after the session tabs. -->
+<div class="calc-toggle-row">
+  <input type="checkbox" id="calcMode" onchange="toggleCalcMode(this)">
+  <label class="toggle-track" for="calcMode"></label>
+  <label class="toggle-label" for="calcMode">Calculate my fees — tick subjects to get a total</label>
+</div>
+
+<!-- Sticky calculator bar: place after </main> and before the footer. -->
+<div class="calc-bar" id="calcBar">
+  <div class="calc-bar-inner">
+    <div class="calc-bar-top">
+      <div>
+        <div class="calc-total-label">Estimated total</div>
+        <div class="calc-total-gbp" id="totalGbp">£0</div>
+        <div class="calc-subjects" id="subjectCount"></div>
+      </div>
+      <button class="calc-clear" onclick="clearAll()">Clear all</button>
+    </div>
+    <div class="fx-grid" id="fxGrid"></div>
+    <div class="fx-note" id="fxNote"></div>
+  </div>
+</div>
+
+<!-- Calculator JavaScript: merge into the page's existing <script> block. -->
+<script>
+let calcActive = false;
+let rates = null;
+const currencies = [
+  { code: "USD", symbol: "$" },
+  { code: "EUR", symbol: "€" },
+  { code: "AED", symbol: "AED" },
+  { code: "AUD", symbol: "A$" },
+  { code: "NZD", symbol: "NZ$" },
+  { code: "JPY", symbol: "¥" },
+];
+
+function toggleCalcMode(cb) {
+  calcActive = cb.checked;
+  applyCalcMode();
+  if (!calcActive) clearAll();
+}
+
+function applyCalcMode() {
+  document.querySelectorAll("tr[data-fee]").forEach(row => {
+    const cell = row.querySelector(".cb-cell");
+    if (!cell) return;
+    if (calcActive) {
+      if (!cell.querySelector("input")) {
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.className = "subject-cb";
+        cb.addEventListener("change", () => {
+          row.classList.toggle("selected-row", cb.checked);
+          updateTotal();
+        });
+        cell.appendChild(cb);
+      }
+    } else {
+      cell.innerHTML = "";
+      row.classList.remove("selected-row");
+    }
+  });
+}
+
+function updateTotal() {
+  const checked = document.querySelectorAll(".subject-cb:checked");
+  let total = 0;
+  let hasTbc = false;
+  checked.forEach(cb => {
+    const row = cb.closest("tr");
+    total += parseInt(row.dataset.fee || 0, 10);
+    if (row.dataset.tbc) hasTbc = true;
+  });
+  const bar = document.getElementById("calcBar");
+  if (checked.length === 0) {
+    bar.classList.remove("visible");
+    return;
+  }
+  bar.classList.add("visible");
+  document.getElementById("totalGbp").textContent = "£" + total.toLocaleString() + (hasTbc ? " + TBC" : "");
+  const n = checked.length;
+  document.getElementById("subjectCount").textContent = n + (n === 1 ? " subject selected" : " subjects selected");
+  document.getElementById("fxGrid").innerHTML = currencies.map(c =>
+    "<div class=\"fx-pill\" id=\"fx-" + c.code + "\">" + c.symbol + " <span style=\"color:var(--text-faint)\">loading...</span></div>"
+  ).join("");
+  document.getElementById("fxNote").textContent = hasTbc
+    ? "Conversion shown for confirmed fees only. Final fee may vary slightly; the exact conversion will be calculated on the day of payment."
+    : "Indicative conversion based on today's live rates. Final fee may vary slightly; the exact conversion will be calculated on the day of payment.";
+  loadRates(total, hasTbc);
+}
+
+async function loadRates(total, hasTbc) {
+  if (!rates) rates = await fetchRatesFromAny();
+  renderFx(total, hasTbc);
+}
+
+async function fetchRatesFromAny() {
+  const apis = [
+    async () => { const r = await fetch("https://api.frankfurter.app/latest?from=GBP&to=USD,EUR,AED,AUD,NZD,JPY"); const d = await r.json(); return d.rates; },
+    async () => { const r = await fetch("https://open.er-api.com/v6/latest/GBP"); const d = await r.json(); return { USD: d.rates.USD, EUR: d.rates.EUR, AED: d.rates.AED, AUD: d.rates.AUD, NZD: d.rates.NZD, JPY: d.rates.JPY }; },
+    async () => { const r = await fetch("https://api.exchangerate-api.com/v4/latest/GBP"); const d = await r.json(); return { USD: d.rates.USD, EUR: d.rates.EUR, AED: d.rates.AED, AUD: d.rates.AUD, NZD: d.rates.NZD, JPY: d.rates.JPY }; },
+  ];
+  for (const api of apis) {
+    try { return await api(); } catch (error) {}
+  }
+  document.getElementById("fxNote").textContent += " (Live rates unavailable — showing approximate rates.)";
+  return { USD: 1.27, EUR: 1.17, AED: 4.67, AUD: 1.96, NZD: 2.14, JPY: 196.0 };
+}
+
+function renderFx(total, hasTbc) {
+  currencies.forEach(c => {
+    const el = document.getElementById("fx-" + c.code);
+    if (!el || !rates || !rates[c.code]) return;
+    const val = total * rates[c.code];
+    const fmt = c.symbol + Math.round(val).toLocaleString();
+    el.innerHTML = "<span class=\"fx-val\">" + fmt + (hasTbc ? "+" : "") + "</span> <span style=\"font-size:10px;color:var(--text-faint)\">" + c.code + "</span>";
+  });
+}
+
+function clearAll() {
+  document.querySelectorAll(".subject-cb").forEach(cb => { cb.checked = false; });
+  document.querySelectorAll(".selected-row").forEach(row => row.classList.remove("selected-row"));
+  document.getElementById("calcBar").classList.remove("visible");
+}
+</script>
